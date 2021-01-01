@@ -1,0 +1,76 @@
+import java.util.Scanner;
+
+public class first {
+	public static int getDec(int oct) {
+		int result = 0;
+		int number = 0;
+		while (oct > 0) {
+			result = (int)((int)result + (oct % 10) * Math.pow(8, number));
+			oct = oct / 10;
+			number++;
+		}
+		
+		return result;
+	}
+	
+	public static int getLast(int origin) {
+		String numbers = Integer.toOctalString(origin);
+		char[] temp = numbers.toCharArray();
+		int number = 0;
+		for (int i = 0; i < temp.length; i++) {
+			number += temp[i] - 48;
+		}
+		
+		return number;
+	}
+	
+	public static  int[] findCol(int s1, int d1, int r) {
+		int s = getDec(s1);
+		int d = getDec(d1);
+		int last =  s + ((1 + r) * (r - 2) * d / 2);
+		int first = last + d;
+		int numbers[] = new int[r];
+		for (int i = 0; i < r; i++) {
+			numbers[i] = getLast(first + i * d);
+		}
+		
+		return numbers;
+	}
+	
+	
+	public static int assemble(int[] origin) {
+		int result = 0;
+		for (int i = 0; i < origin.length; i++) {
+			result += origin[i];
+		}
+		
+		return result;
+	}
+	
+
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner input = new Scanner(System.in);
+		
+		String[] sequence = new String[5];
+		String[] parts = new String[3];
+		int[] s = new int[5];
+		int[] d = new int[5];
+		int[] r = new int[5];
+		
+		for (int i = 0; i < 5; i++) {
+		  sequence[i] = input.nextLine();
+		  parts = sequence[i].split(" ");
+		  s[i] = Integer.parseInt(parts[0]);
+		  d[i] = Integer.parseInt(parts[1]);
+		  r[i] = Integer.parseInt(parts[2]);
+		}
+	
+		for (int i = 0; i < 5; i++) {
+		  System.out.println((i + 1) + ". " + assemble(findCol(s[i], d[i], r[i])));
+		}
+		
+	}
+
+}
